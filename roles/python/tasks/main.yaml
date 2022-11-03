@@ -1,0 +1,28 @@
+   # This Task is used only as template
+    - name: General | Instalacion de paquetes requeridos.
+      apt:
+        name: "{{ packages }}"
+        state: present
+      vars:
+        packages:
+          - unzip
+          
+          #- mariadb-server
+          #- apache2
+      become: yes
+      become_user: root
+
+
+    - name: Install all required dependencies
+      #apt: name=python state=installed
+      apt: 
+        name: "{{ item }}" 
+        state: present
+      with_items:
+        - python-setuptools
+        - python-dev
+        - build-essential
+        - python3-pip
+        - python3-mysqldb
+      become: yes
+      become_user: root

@@ -1,0 +1,22 @@
+- name: Install and Configure Web Server Install Python Flask dependency
+  pip: 
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - flask
+    - flask-mysql
+  become: yes
+  become_user: root
+
+    #- name: Copy app.py or download it from source repository
+    
+
+- name: Copy source code
+  copy: src=app.py dest=/opt/app.py
+  become: yes
+  become_user: root
+
+    #- name: Configure database credentials and parameters
+
+- name: Start the Web Server
+  shell: FLASK_APP=/opt/app.py nohup flask run --host=0.0.0.0 &

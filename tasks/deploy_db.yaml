@@ -1,0 +1,35 @@
+  - name: Install MySQL database
+      #apt: name=python state=installed
+    apt:
+      name: "{{ item }}" 
+    #state: present
+    with_items:
+        - mariadb-server
+        - mariadb-client
+    become: yes
+    become_user: root
+        
+
+  - name: Start MySQL Service
+    service: 
+      name: mysql
+      state: started
+      enabled: yes
+
+  - name: CReate Application Database
+    mysql_db:
+      name: "{{ db_name }}"
+      state: present
+    become: yes
+    become_user: root
+      # Check the Ansible PLaybook docs for more infos about modules and accepted parameters;
+
+  - name: Create Database user
+    mysql_user:
+      name: "{{ db_user }}"
+      password: "{{ db_user_password }}"
+      priv: '*.*:ALL'
+      state: present
+      host: '%'
+    become: yes
+    become_user: root

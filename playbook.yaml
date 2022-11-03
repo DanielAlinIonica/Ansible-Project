@@ -1,41 +1,13 @@
 - name: Deploy a web application
   hosts: db_and_web_server1,db_and_web_server2
-  vars:
-    db_name: employee_db
-    db_user: db_user
-    db_user_password: Passw0rd
-
-  tasks:
-   # This Task is used only as template
-    - name: General | Instalacion de paquetes requeridos.
-      apt:
-        name: "{{ packages }}"
-        state: present
-      vars:
-        packages:
-          - unzip
-          
-          #- mariadb-server
-          #- apache2
-      become: yes
-      become_user: root
+  roles:
+    - python
+    - mysql_db
+    - flask_web
 
 
-    - name: Install all required dependencies
-      #apt: name=python state=installed
-      apt: 
-        name: "{{ item }}" 
-        state: present
-      with_items:
-        - python-setuptools
-        - python-dev
-        - build-essential
-        - python3-pip
-        - python3-mysqldb
-      become: yes
-      become_user: root
 
    
 
-    - include_tasks: tasks/deploy_db.yaml
-    - include_tasks: tasks/deploy_web.yaml
+   # - include_tasks: tasks/deploy_db.yaml
+   # - include_tasks: tasks/deploy_web.yaml
